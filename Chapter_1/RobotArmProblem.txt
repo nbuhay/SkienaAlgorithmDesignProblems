@@ -1,0 +1,28 @@
+import random as R
+import math as M
+S = []
+num_elements = 20
+max_value = 100
+
+// Return n random ints, no repeats.
+def generate_S(num_elements, max_value):
+	S = []
+	for i in range(0, num_elements):
+		rand_num = R.randint(0, max_value)
+		while rand_num in S:
+			rand_num = R.randint(0,max_value)
+		S.append(rand_num)
+		print(rand_num)
+	return S
+
+S = generate_S(num_elements, max_value)
+
+current = 0
+start = S[0]
+
+def find_min_distance(current, S)
+	current_point = S[current]
+	S.pop(current)
+	for i in range(0, len(S)):
+		
+	
