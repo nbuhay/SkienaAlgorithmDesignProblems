@@ -5,6 +5,7 @@
 import random as Random;
 I=[];
 NUM_MOVIES=10;
+END_TIME=100;   # max length of movie schedule timeline
 
 # compute the total time movie will take, append it to I
 def computeMovieLength(I):
@@ -17,8 +18,8 @@ def computeMovieLength(I):
 def genMovieTimeline(I, n):
   I.clear();
   for i in range(0, n):
-    start = int(Random.uniform(0,1) * 100);
-    end = Random.randint(start, 100);
+    start = int(Random.uniform(0,1) * END_TIME);
+    end = Random.randint(start, END_TIME);
     I.append([start, end]);
   computeMovieLength(I);
 
@@ -42,6 +43,31 @@ def buhay_sort(unsorted_list, sort_element):
   unsorted_list.extend(sorted_list);  # copy sorted elements into original list object
   return sorted_list;
 
+# use to schedule movies based on their start date
+# earliest are selected and selections are made so there is no conflict
+def schedule_earliest(list):
+  cntr=0;
+  final_list=[];
+  final_list.append(list.pop(0));
+  for movie in list:
+    if(movie[0] > final_list[cntr][1]): # does this movie start after one already booked?
+      final_list.append(movie); # yes it does, schedule this movie
+      cntr+=1; # move counter ahead so we now compare using the above scheduled movie
+  return final_list;
+
+def schedule_shortest(list):
+  final_list=[];
+  final_list.append(list.pop(0));
+  for movie in list:
+    for scheduled_movie in final_list:
+      if((scheduled_movie[0] < movie[1] and scheduled_movie[0] > movie[0]) or 
+        (movie[0] < scheduled_movie[0] and movie[1] < scheduled_movie[1]) or 
+        (scheduled_movie[1] > movie[0] and scheduled_movie[1] < movie[1])):
+          list.pop(movie);
+      else:
+        final_list.append(movie);
+  return final_list;
+
 # generate data
 genMovieTimeline(I, NUM_MOVIES);
 
@@ -49,4 +75,4 @@ genMovieTimeline(I, NUM_MOVIES);
 earliest_start=buhay_sort(I, 0);
 
 # sort by time it will take to complete a movie
-shortest_time=buhay_sort(I, 2)
+shortest_time=buhay_sort(I, 2);
