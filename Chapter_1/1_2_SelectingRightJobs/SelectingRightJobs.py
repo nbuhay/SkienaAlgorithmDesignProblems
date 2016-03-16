@@ -3,7 +3,8 @@
 # Output:  What is the largest subset of mutually non-overlapping intervals which can be selected from I?
 
 import random as Random;
-I =[];
+I=[];
+NUM_MOVIES=10;
 
 # compute the total time movie will take, append it to I
 def computeMovieLength(I):
@@ -41,5 +42,11 @@ def buhay_sort(unsorted_list, sort_element):
   unsorted_list.extend(sorted_list);  # copy sorted elements into original list object
   return sorted_list;
 
-genMovieTimeline(I, 10);
-print(I);
+# generate data
+genMovieTimeline(I, NUM_MOVIES);
+
+# sort by earliest start day for filming
+earliest_start=buhay_sort(I, 0);
+
+# sort by time it will take to complete a movie
+shortest_time=buhay_sort(I, 2)
