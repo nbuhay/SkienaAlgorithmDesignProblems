@@ -75,6 +75,15 @@ def schedule_shortest(list):
       final_list.append(movie);
   return final_list;
 
+# find median value in the list
+def median_movie_length(list):
+  middle_index = len(list)/2;
+  if(len(list) % 2 == 0): # even
+    median = (list[middle_index] + list[middle_index-1]) / 2;
+  else: # odd
+    median = list[middle_index];
+  return median
+
 # generate data
 genMovieTimeline(I, NUM_MOVIES);
 
