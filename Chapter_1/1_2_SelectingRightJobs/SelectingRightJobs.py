@@ -55,17 +55,24 @@ def schedule_earliest(list):
       cntr+=1; # move counter ahead so we now compare using the above scheduled movie
   return final_list;
 
+# select films that take the least time to complete and do not overlap
 def schedule_shortest(list):
   final_list=[];
   final_list.append(list.pop(0));
   for movie in list:
-    for scheduled_movie in final_list:
-      if((scheduled_movie[0] < movie[1] and scheduled_movie[0] > movie[0]) or 
-        (movie[0] < scheduled_movie[0] and movie[1] < scheduled_movie[1]) or 
-        (scheduled_movie[1] > movie[0] and scheduled_movie[1] < movie[1])):
-          list.pop(movie);
+    cntr=0;
+    flag = True;
+    while (cntr < len(final_list)):
+      if(not(movie[0] < final_list[cntr][0] and movie[1] > final_list[cntr][0]) and
+         not(movie[0] < final_list[cntr][0] and movie[1] > final_list[cntr][1]) and
+         not(movie[0] < final_list[cntr][1] and movie[1] > final_list[cntr][1]) and 
+         not(movie[0] == final_list[cntr][0] and movie[1] == final_list[cntr][1])):
+        pass # does not conflict with this scheduled movie
       else:
-        final_list.append(movie);
+        flag = False; # conflicts with this scheduled movie
+      cntr+=1;
+    if(flag): # if no conflicts existed with any scheduled movie, schedule this movie
+      final_list.append(movie);
   return final_list;
 
 # generate data
