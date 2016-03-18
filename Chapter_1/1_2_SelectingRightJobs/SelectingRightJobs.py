@@ -84,6 +84,43 @@ def median_movie_length(list):
     median = list[middle_index];
   return median
 
+# schedule based on median value of movie length
+def schedule_median(list):
+  final_list=[];
+  final_list.append(list.pop(0));
+  for movie in list:
+    cntr=0;
+    flag = True;
+    while (cntr < len(final_list)):
+      if(not(movie[0] < final_list[cntr][0] and movie[1] > final_list[cntr][0]) and
+         not(movie[0] < final_list[cntr][0] and movie[1] > final_list[cntr][1]) and
+         not(movie[0] < final_list[cntr][1] and movie[1] > final_list[cntr][1]) and 
+         not(movie[0] == final_list[cntr][0] and movie[1] == final_list[cntr][1]) and
+         not(movie[0] > final_list[cntr][0] and movie[1] < final_list[1])):
+        pass # does not conflict with this scheduled movie
+      else:
+        flag = False; # conflicts with this scheduled movie
+      cntr+=1;
+    if(flag): # if no conflicts existed with any scheduled movie, schedule this movie
+      final_list.append(movie);
+  return final_list;
+
+
+# schedule based on earliest movie end date
+def schedule_earliest_end(list):
+  final_list=[];
+  final_list.append(list.pop(0));
+  for movie in list:
+    cntr=0;
+    flag = True;
+    while (cntr < len(final_list)):
+      if(movie[0] < final_list[cntr][1] and movie[1] > final_list[cntr][1]):
+        flag = False; # conflicts with this scheduled movie
+      cntr+=1;
+    if(flag): # if no conflicts existed with any scheduled movie, schedule this movie
+      final_list.append(movie);
+  return final_list;
+
 # generate data
 genMovieTimeline(I, NUM_MOVIES);
 
@@ -92,3 +129,7 @@ earliest_start=buhay_sort(I, 0);
 
 # sort by time it will take to complete a movie
 shortest_time=buhay_sort(I, 2);
+
+# sort be earliest end date
+earliest_end=buhay_sort(I, 1);
+
